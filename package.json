@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "readline-sync": "^1.4.10",
+    "svg-builder": "^2.0.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  },
+
+  "scripts": {
+    "test": "Jest"
+  }
+  }
+
