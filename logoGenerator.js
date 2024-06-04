@@ -1,6 +1,5 @@
 const readlineSync = require('readline-sync');
 const fs = require('fs');
-const svgBuilder = require('svg-builder');
 
 const colorKeywords = ["black", "white", "red", "green", "blue", "yellow", "cyan", "magenta", "gray", "grey", "silver", "maroon", "olive", "purple", "teal", "navy"];
 const hexColorRegex = /^#(?:[0-9a-fA-F]{3}){1,2}$/;
@@ -21,25 +20,26 @@ function getInput(prompt, validate) {
 }
 
 function generateSVG(text, textColor, shape, shapeColor) {
-    const svg = svgBuilder.width(300).height(200);
-
-    // Add the shape to the SVG
+    let shapeElement;
     switch (shape) {
         case 'circle':
-            svg.element('circle', { cx: 150, cy: 100, r: 50, fill: shapeColor });
+            shapeElement = `<circle cx="150" cy="100" r="50" fill="${shapeColor}" />`;
             break;
         case 'triangle':
-            svg.element('polygon', { points: "150,50 100,150 200,150", fill: shapeColor });
+            shapeElement = `<polygon points="150,50 100,150 200,150" fill="${shapeColor}" />`;
             break;
         case 'square':
-            svg.element('rect', { x: 100, y: 50, width: 100, height: 100, fill: shapeColor });
+            shapeElement = `<rect x="100" y="50" width="100" height="100" fill="${shapeColor}" />`;
             break;
     }
 
-    // Add the text to the SVG
-    svg.element('text', { x: 150, y: 180, 'font-size': 40, 'text-anchor': 'middle', fill: textColor }, text);
+    const svgContent = `
+    <svg height="200" width="300" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        ${shapeElement}
+        <text x="150" y="180" font-size="40" text-anchor="middle" fill="${textColor}">${text}</text>
+    </svg>`;
 
-    return svg.render();
+    return svgContent;
 }
 
 function main() {
